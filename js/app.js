@@ -23,8 +23,9 @@ $(document).ready(function(){
   	});
 
   	$("#guessButton").click(function(e){
-  		addGuess(e);
-  		feedback();
+  		if(addGuess(e)){
+  			feedback();
+  		}
   	});
 
   	//Gives feedback about the user's guess in relation to the Secret Number
@@ -46,6 +47,7 @@ $(document).ready(function(){
 
   	//Adds guess's to guess list and increments count
   	function addGuess(e) {
+  		var validGuess = false;
    		guess = $("#userGuess").val();
   		var clear = $("#userGuess").val("");
   		guessCount++;
@@ -54,12 +56,17 @@ $(document).ready(function(){
   			$("#guessList").append("<li>" + guess + "</li>");
   			clear;
   			$("#count").text(guessCount);
+  			validGuess = true;
+  		} else {
+  			$("#feedback").text("Guess must be between 1 and 100");
   		}
   		
   		e.preventDefault();
+
+  		return (validGuess);
   	}
 
-  	//Function called on click of New Game button
+  	//Function called on click of New Game button: resets all values 
   	function newGame() {
   		//Get new secret number
   		secretNumber = setRandomNumber();
